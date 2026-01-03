@@ -6,8 +6,19 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerViewHistory;
+    private ConversationAdapter conversationAdapter;
+    private List<Conversation> conversations;
+    private ChatDatabaseHelper databaseHelper;
+    private UserSession userSession;
+    private long currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +31,33 @@ public class HistoryActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        databaseHelper = new ChatDatabaseHelper(this);
+        userSession = new UserSession(this);
+
+        if (!userSession.isLoggedIn()) {
+            finish();
+            return;
+        }
+
+        currentUserId = userSession.getUserId();
+
+        recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
+
+        loadConversations();
+    }
+
+    private void loadConversations() {
+        conversations = databaseHelper.getConversationsForUser(currentUserId);
+        conversationAdapter = new ConversationAdapter(this, conversations);
+        recyclerViewHistory.setAdapter(conversationAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadConversations(); // Refresh list when returning
     }
 
     @Override

@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
         currentUserId = userSession.getUserId();
 
+        // Check if opening a specific conversation from history
+        long selectedConversationId = getIntent().getLongExtra("conversation_id", -1);
+
         recyclerViewChat = findViewById(R.id.recyclerViewChat);
         editTextMessage = findViewById(R.id.editTextMessage);
         buttonSend = findViewById(R.id.buttonSend);
@@ -269,17 +272,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeCurrentConversation() {
-        // Get conversations for current user
-        List<Conversation> conversations = databaseHelper.getConversationsForUser(currentUserId);
+        // Check if a specific conversation was selected from history
+        long selectedConversationId = getIntent().getLongExtra("conversation_id", -1);
 
-        if (conversations.isEmpty()) {
-            // Create first conversation for this user
-            currentConversationId = databaseHelper.createConversation(currentUserId, "New Chat");
-            android.util.Log.d("Database", "Created new conversation with ID: " + currentConversationId + " for user " + currentUserId);
+        if (selectedConversationId != -1) {
+            // Load the selected conversation
+            currentConversationId = selectedConversationId;
+            android.util.Log.d("Database", "Loaded selected conversation with ID: " + currentConversationId);
         } else {
-            // Load the most recent conversation
-            currentConversationId = conversations.get(0).getId();
-            android.util.Log.d("Database", "Loaded existing conversation with ID: " + currentConversationId + " (" + conversations.size() + " total conversations for user " + currentUserId + ")");
+            // Get conversations for current user
+            List<Conversation> conversations = databaseHelper.getConversationsForUser(currentUserId);
+
+            if (conversations.isEmpty()) {
+                // Create first conversation for this user
+                currentConversationId = databaseHelper.createConversation(currentUserId, "New Chat");
+                android.util.Log.d("Database", "Created new conversation with ID: " + currentConversationId + " for user " + currentUserId);
+            } else {
+                // Load the most recent conversation
+                currentConversationId = conversations.get(0).getId();
+                android.util.Log.d("Database", "Loaded existing conversation with ID: " + currentConversationId + " (" + conversations.size() + " total conversations for user " + currentUserId + ")");
+            }
         }
 
         // Load messages for current conversation

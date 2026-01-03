@@ -15,13 +15,14 @@
         app:title="Chat History"
         app:titleTextColor="@android:color/white" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chat history will be displayed here."
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewHistory"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_history" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_history"
+        tools:listitem="@layout/item_conversation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

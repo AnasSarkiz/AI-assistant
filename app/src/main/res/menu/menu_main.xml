@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.anas.aiassistant.MainActivity">
+    <item
+        android:id="@+id/action_new_chat"
+        android:title="New Chat"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_history"
+        android:title="History"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_clear_history"
+        android:title="Clear History"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout"
+        app:showAsAction="never" />
+</menu>

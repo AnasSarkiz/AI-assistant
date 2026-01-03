@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AIAssistant" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorPrimaryVariant">@color/brand_secondary</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/brand_accent</item>
+        <item name="colorSecondaryVariant">@color/brand_accent</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Surface colors -->
+        <item name="colorSurface">@color/background_surface</item>
+        <item name="colorOnSurface">@color/textColorPrimary</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_primary</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/brand_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Typography -->
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+    </style>
+
+    <style name="Theme.AIAssistant" parent="Base.Theme.AIAssistant" />
+
+    <!-- Custom message bubble styles -->
+    <style name="MessageBubble">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:maxWidth">280dp</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
+
+    <style name="UserMessageBubble" parent="MessageBubble">
+        <item name="android:textColor">@color/user_message_text</item>
+    </style>
+
+    <style name="BotMessageBubble" parent="MessageBubble">
+        <item name="android:textColor">@color/bot_message_text</item>
+    </style>
+</resources>

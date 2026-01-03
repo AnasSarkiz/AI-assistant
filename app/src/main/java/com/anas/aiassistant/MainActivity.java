@@ -1,6 +1,7 @@
 package com.anas.aiassistant;
 
 import android.content.Intent;
+import com.anas.aiassistant.BuildConfig;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = BuildConfig.API_KEY;
     private static final String MODEL = "xiaomi/mimo-v2-flash:free";
 
     private static final String SYSTEM_PROMPT =

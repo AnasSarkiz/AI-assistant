@@ -29,6 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         databaseHelper = new ChatDatabaseHelper(this);
         userSession = new UserSession(this);
 
+        // Check if user is already logged in
+        if (userSession.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);

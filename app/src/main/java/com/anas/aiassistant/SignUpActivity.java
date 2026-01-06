@@ -15,6 +15,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText usernameEditText;
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
+    private TextInputEditText confirmPasswordEditText;
     private MaterialButton signupButton;
     private TextView loginTextView;
 
@@ -30,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.signupUsernameEditText);
         emailEditText = findViewById(R.id.signupEmailEditText);
         passwordEditText = findViewById(R.id.signupPasswordEditText);
+        confirmPasswordEditText = findViewById(R.id.signupConfirmPasswordEditText);
         signupButton = findViewById(R.id.signupButton);
         loginTextView = findViewById(R.id.loginTextView);
 
@@ -39,15 +41,21 @@ public class SignUpActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString().trim();
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
+                String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
                 // Basic validation
-                if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (password.length() < 4) {
                     Toast.makeText(SignUpActivity.this, "Password must be at least 4 characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!password.equals(confirmPassword)) {
+                    Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

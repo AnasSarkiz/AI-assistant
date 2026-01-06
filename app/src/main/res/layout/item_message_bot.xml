@@ -23,14 +23,15 @@
             app:cardElevation="2dp">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="14dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ai_logo"
                 android:contentDescription="AI Assistant"
-                android:scaleX="3.2"
-                android:scaleY="3"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:layout_marginTop="4dp"
+                android:scaleX="4"
+                android:scaleY="4"
+                android:src="@drawable/ai_logo" />
 
         </com.google.android.material.card.MaterialCardView>
 

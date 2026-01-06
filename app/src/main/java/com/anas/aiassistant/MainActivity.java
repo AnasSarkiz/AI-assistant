@@ -20,15 +20,14 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.anas.aiassistant.api.ApiClient;
-import com.anas.aiassistant.api.GeminiRequest;
-import com.anas.aiassistant.api.GeminiResponse;
+import com.anas.aiassistant.api.Request;
+import com.anas.aiassistant.api.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,9 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String MODEL = "xiaomi/mimo-v2-flash:free";
 
     private static final String SYSTEM_PROMPT =
-            "You are a helpful AI assistant. Maintain conversation context and respond naturally. " +
-            "Remember previous messages in the conversation and provide relevant, contextual responses. " +
-            "Keep responses in plain text format, not markdown.";
+            "You are a helpful AI assistant named 'AI Assistant'. Maintain conversation context and respond naturally. " +
+            "Remember previous messages in the conversation and provide relevant, contextual responses.";
 
     private static final int MAX_CONTEXT_LENGTH = 2000; // Very conservative limit to prevent token overuse
 
@@ -150,29 +148,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Build messages list
-        List<GeminiRequest.Message> messages = new ArrayList<>();
-        messages.add(new GeminiRequest.Message("system", SYSTEM_PROMPT));
+        List<Request.Message> messages = new ArrayList<>();
+        messages.add(new Request.Message("system", SYSTEM_PROMPT));
 
         // Add conversation history
         for (int i = startIndex; i < chatMessages.size(); i++) {
             ChatMessage msg = chatMessages.get(i);
             String role = msg.isUser() ? "user" : "assistant";
-            messages.add(new GeminiRequest.Message(role, msg.getMessage()));
+            messages.add(new Request.Message(role, msg.getMessage()));
         }
 
         // Debug: Log context size for monitoring token usage
         int contextMessageCount = chatMessages.size() - startIndex;
         android.util.Log.d("AIAssistant", "Sending " + contextMessageCount + " messages in context");
 
-        GeminiRequest request = new GeminiRequest(MODEL, messages);
+        Request request = new Request(MODEL, messages);
 
-        ApiClient.getGeminiService()
+        ApiClient.getService()
                 .generateChat("Bearer " + API_KEY, request)
-                .enqueue(new Callback<GeminiResponse>() {
+                .enqueue(new Callback<Response>() {
 
-                     @Override
-                     public void onResponse(Call<GeminiResponse> call,
-                                            Response<GeminiResponse> response) {
+                      @Override
+                      public void onResponse(Call<Response> call,
+                                             retrofit2.Response<Response> response) {
                          if (response.isSuccessful() && response.body() != null) {
                              String aiText = response.body().getFirstText();
                              runOnUiThread(() -> {
@@ -191,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                       }
 
                     @Override
-                    public void onFailure(Call<GeminiResponse> call, Throwable t) {
+                    public void onFailure(Call<Response> call, Throwable t) {
                         runOnUiThread(() -> addBotMessage("Network error: " + t.getMessage()));
                     }
                 });
@@ -251,9 +249,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_history) {
             startActivity(new Intent(this, HistoryActivity.class));
             return true;
-        } else if (id == R.id.action_clear_history) {
-            clearChatHistory();
-            return true;
         } else if (id == R.id.action_logout) {
             userSession.logoutUser();
             startActivity(new Intent(this, LoginActivity.class));
@@ -263,13 +258,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void clearChatHistory() {
-        // Clear messages for current conversation from database
-        databaseHelper.deleteConversation(currentConversationId);
 
-        // Create a new conversation to replace the cleared one
-        createNewConversation();
-    }
 
     private void initializeCurrentConversation() {
         // Check if a specific conversation was selected from history

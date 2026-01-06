@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,16 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     private List<Conversation> conversations;
     private Context context;
+    private OnDeleteListener onDeleteListener;
 
-    public ConversationAdapter(Context context, List<Conversation> conversations) {
+    public interface OnDeleteListener {
+        void onDelete(long conversationId);
+    }
+
+    public ConversationAdapter(Context context, List<Conversation> conversations, OnDeleteListener onDeleteListener) {
         this.context = context;
         this.conversations = conversations;
+        this.onDeleteListener = onDeleteListener;
     }
 
     @NonNull
@@ -48,6 +55,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         });
+
+        holder.buttonDelete.setOnClickListener(v -> {
+            if (onDeleteListener != null) {
+                onDeleteListener.onDelete(conversation.getId());
+            }
+        });
     }
 
     @Override
@@ -58,11 +71,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public static class ConversationViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle;
         TextView textViewDate;
+        Button buttonDelete;
 
         public ConversationViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDate = itemView.findViewById(R.id.textViewDate);
+            buttonDelete = itemView.findViewById(R.id.buttonDelete);
         }
     }
 }

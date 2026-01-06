@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.noties.markwon.Markwon;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -86,7 +88,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void bind(ChatMessage chatMessage) {
-            messageText.setText(chatMessage.getMessage());
+            Markwon markwon = Markwon.create(itemView.getContext());
+            markwon.setMarkdown(messageText, chatMessage.getMessage());
             timestampText.setText(chatMessage.getFormattedTime());
         }
     }

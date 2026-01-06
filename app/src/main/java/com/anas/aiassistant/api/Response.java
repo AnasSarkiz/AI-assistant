@@ -2,7 +2,7 @@ package com.anas.aiassistant.api;
 
 import java.util.List;
 
-public class GeminiResponse {
+public class Response {
     public List<Choice> choices;
 
     public static class Choice {

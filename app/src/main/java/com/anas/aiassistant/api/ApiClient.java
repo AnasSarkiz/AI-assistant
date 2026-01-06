@@ -9,7 +9,7 @@ public class ApiClient {
     private static final String BASE_URL = "https://openrouter.ai/api/v1/";
     private static Retrofit retrofit = null;
 
-    public static GeminiApiService getGeminiService() {
+    public static ApiService getService() {
         if (retrofit == null) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -21,6 +21,6 @@ public class ApiClient {
                     .client(client)
                     .build();
         }
-        return retrofit.create(GeminiApiService.class);
+        return retrofit.create(ApiService.class);
     }
 }

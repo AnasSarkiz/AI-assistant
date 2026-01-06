@@ -5,10 +5,10 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-public interface GeminiApiService {
+public interface ApiService {
     @POST("chat/completions")
-    Call<GeminiResponse> generateChat(
+    Call<Response> generateChat(
         @Header("Authorization") String authorization,
-        @Body GeminiRequest request
+        @Body Request request
     );
 }

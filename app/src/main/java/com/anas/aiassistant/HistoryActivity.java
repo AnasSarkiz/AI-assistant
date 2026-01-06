@@ -50,7 +50,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void loadConversations() {
         conversations = databaseHelper.getConversationsForUser(currentUserId);
-        conversationAdapter = new ConversationAdapter(this, conversations);
+        conversationAdapter = new ConversationAdapter(this, conversations, conversationId -> {
+            databaseHelper.deleteConversation(conversationId);
+            loadConversations(); // Refresh the list
+        });
         recyclerViewHistory.setAdapter(conversationAdapter);
     }
 

@@ -24,4 +24,14 @@
         android:textColor="@android:color/darker_gray"
         tools:text="Created: Jan 1, 2023" />
 
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:textSize="12sp"
+        android:layout_gravity="end"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:textColor="@android:color/white" />
+
 </LinearLayout>
